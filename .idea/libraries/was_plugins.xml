@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="was_plugins">
+    <CLASSES>
+      <root url="file://$USER_HOME$/work/java_lib/was_plugins" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/work/java_lib/was_plugins" />
+    </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/work/java_lib/was_plugins" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/work/java_lib/was_plugins" recursive="false" type="SOURCES" />
+  </library>
+</component>

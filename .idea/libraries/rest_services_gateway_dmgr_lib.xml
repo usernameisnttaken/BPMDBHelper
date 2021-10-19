@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="rest_services_gateway_dmgr_lib">
+    <CLASSES>
+      <root url="file://$USER_HOME$/work/java_lib/rest_services_gateway_dmgr_lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/work/java_lib/rest_services_gateway_dmgr_lib" recursive="false" />
+  </library>
+</component>

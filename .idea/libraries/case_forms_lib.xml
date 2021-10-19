@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="case_forms_lib">
+    <CLASSES>
+      <root url="file://$USER_HOME$/work/java_lib/case_forms_lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/work/java_lib/case_forms_lib" recursive="false" />
+  </library>
+</component>
