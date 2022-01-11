@@ -1,5 +1,6 @@
 package ru.ertelecom.bpms.db;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.lombardisoftware.core.TWObject;
 import ru.ertelecom.bpms.db.entity.BPMProcessInstance;
 import ru.ertelecom.bpms.db.entity.BPMProcessInstanceData;
@@ -23,6 +24,8 @@ public class BPMDBHelper {
     public static void main(String[] args)
             throws Exception {
         long startTime = System.nanoTime();
+        System.out.println("Hola!");
+        System.out.println("start time = " + startTime);
 
         // выгрузка по подключке
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -30,6 +33,24 @@ public class BPMDBHelper {
         String beforeStr = "01/10/2021 23:59:59";
         Date after = sdf.parse(afterStr);
         Date before = sdf.parse(beforeStr);
+        // выгрузка по подключке
+//        List<BPMProcessInstance> bpmProcessInstances = (List<BPMProcessInstance>)
+//                BPMHibernateSessionFactoryUtil
+//                        .getSessionFactory()
+//                        .openSession()
+//                        .createQuery("FROM " +
+//                                "BPMProcessInstance bpi " +
+//                                "WHERE " +
+//                                "bpi.bpmProject.acronym = :acronym " +
+//                                "and bpi.executionStatusId in (:statusIds) " +
+//                                "and bpi.createDatetime between :after and :before")
+//                        .setParameter("acronym", "B2B3")
+//                        .setParameter("statusIds", Arrays.asList(InstanceStatus.ACTIVE.getValue(), InstanceStatus.COMPLETED.getValue()))
+//                        .setParameter("after", after)
+//                        .setParameter("before", before)
+//                        .list();
+
+        // для разработки
         List<BPMProcessInstance> bpmProcessInstances = (List<BPMProcessInstance>)
                 BPMHibernateSessionFactoryUtil
                         .getSessionFactory()
@@ -37,13 +58,8 @@ public class BPMDBHelper {
                         .createQuery("FROM " +
                                 "BPMProcessInstance bpi " +
                                 "WHERE " +
-                                "bpi.bpmProject.acronym = :acronym " +
-                                "and bpi.executionStatusId in (:statusIds)" +
-                                "and bpi.createDatetime between :after and :before")
-                        .setParameter("acronym", "B2B3")
-                        .setParameter("statusIds", Arrays.asList(InstanceStatus.ACTIVE.getValue(), InstanceStatus.COMPLETED.getValue()))
-                        .setParameter("after", after)
-                        .setParameter("before", before)
+                                "bpi.bpdInstanceId = :instanceId")
+                        .setParameter("instanceId", 13122L)
                         .list();
 
         List<B2B3ReportEntity> b2B3ReportEntities = new ArrayList<>();
@@ -57,10 +73,9 @@ public class BPMDBHelper {
             BPMProcessInstanceData bpmProcessInstanceData = bpmProcessInstanceDataService
                     .findByBpdInstanceId(bpmProcessInstance.getBpdInstanceId());
             try {
-                HashMap<String, TWObject> data = bpmProcessInstanceDataService.getBPMProcessInstanceData(bpmProcessInstanceData.getData());
-                TWObject requestData = data.get("requestData");
+                ObjectNode objectNode = bpmProcessInstanceDataService.getBPDDataAsJson(bpmProcessInstanceData.getData());
                 b2B3ReportEntity.setCityId(0);
-            } catch (Exception e) {
+            } catch (IOException | ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             } finally {
                 System.out.println("processed " + bpmProcessInstance.getBpdInstanceId());
