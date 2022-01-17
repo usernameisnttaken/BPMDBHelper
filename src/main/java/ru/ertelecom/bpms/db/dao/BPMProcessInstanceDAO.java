@@ -12,12 +12,16 @@ public class BPMProcessInstanceDAO {
     }
 
     public List<BPMProcessInstance> findAll() {
-        List<BPMProcessInstance> BPMDBProcessInstances = (List<BPMProcessInstance>) BPMHibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM BPMProcessInstance").list();
-        return BPMDBProcessInstances;
+        return (List<BPMProcessInstance>)
+                BPMHibernateSessionFactoryUtil
+                .getSessionFactory()
+                .openSession()
+                .createQuery("FROM BPMProcessInstance")
+                .list();
     }
 
     public List<BPMProcessInstance> findAllCreatedBetween(final Date createdAfter, final Date createdBefore) {
-        List<BPMProcessInstance> BPMDBProcessInstances = (List<BPMProcessInstance>)
+        return (List<BPMProcessInstance>)
                 BPMHibernateSessionFactoryUtil
                         .getSessionFactory()
                         .openSession()
@@ -25,18 +29,16 @@ public class BPMProcessInstanceDAO {
                         .setParameter("start", createdAfter)
                         .setParameter("end", createdBefore)
                         .list();
-        return BPMDBProcessInstances;
     }
 
     public List<BPMProcessInstance> findAllByProjectId(final String projectId) {
-        List<BPMProcessInstance> BPMDBProcessInstances = (List<BPMProcessInstance>)
+        return (List<BPMProcessInstance>)
                 BPMHibernateSessionFactoryUtil
                         .getSessionFactory()
                         .openSession()
                         .createQuery("FROM BPMProcessInstance pi WHERE pi.projectId = :prId")
                         .setParameter("prId", projectId)
                         .list();
-        return BPMDBProcessInstances;
     }
 
     public List<BPMProcessInstance> findAllByProjectAcronym(final String acronym) {

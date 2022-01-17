@@ -48,19 +48,32 @@ public class BPMTaskInstance {
     private Date dueDatetime;
 
     // Id пользователя, на которого назначена задача
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID", insertable = false, updatable = false)
     private Long assignedToUserId;
     // Id группы, на которую назначена задача
-    @Column(name = "GROUP_ID")
+    @Column(name = "GROUP_ID", insertable = false, updatable = false)
     private Long assignedToGroupId;
     // Id пользователя закрывшего задачу
-    @Column(name = "CLOSE_BY")
+    @Column(name = "CLOSE_BY", insertable = false, updatable = false)
     private Long closedByUserId;
 
     // Инстанс процесса
-    @ManyToOne(targetEntity = BPMProcessInstance.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "BPD_INSTANCE_ID", referencedColumnName = "BPD_INSTANCE_ID")
-    BPMProcessInstance bpmProcessInstance;
+//    @ManyToOne(targetEntity = BPMProcessInstance.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "BPD_INSTANCE_ID", referencedColumnName = "BPD_INSTANCE_ID")
+//    BPMProcessInstance bpmProcessInstance;
+
+    // Пользователь, на которого назначена задача
+//    @ManyToOne(targetEntity = BPMUser.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+//    private BPMUser assignedToUser;
+//    // Группа, на которого назначена задача
+//    @ManyToOne(targetEntity = BPMGroup.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "GROUP_ID", referencedColumnName = "GROUP_ID")
+//    private BPMUser assignedToGroup;
+//    // Пользователь, закрывший задачу
+//    @ManyToOne(targetEntity = BPMUser.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "CLOSE_BY", referencedColumnName = "USER_ID")
+//    private BPMUser closedByUser;
 
     @Override
     public String toString() {
@@ -78,7 +91,6 @@ public class BPMTaskInstance {
                 ", assignedToUserId=" + assignedToUserId +
                 ", assignedToGroupId=" + assignedToGroupId +
                 ", closedByUserId=" + closedByUserId +
-                ", bpmProcessInstance=" + bpmProcessInstance +
                 '}';
     }
 
@@ -189,11 +201,4 @@ public class BPMTaskInstance {
         this.closedByUserId = closedByUserId;
     }
 
-    public BPMProcessInstance getBpmProcessInstance() {
-        return bpmProcessInstance;
-    }
-
-    public void setBpmProcessInstance(BPMProcessInstance bpmProcessInstance) {
-        this.bpmProcessInstance = bpmProcessInstance;
-    }
 }

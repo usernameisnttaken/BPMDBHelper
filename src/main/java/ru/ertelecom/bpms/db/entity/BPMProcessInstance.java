@@ -5,7 +5,6 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Immutable
@@ -42,6 +41,15 @@ public class BPMProcessInstance {
     @Column(name = "LAST_MODIFIED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModifiedDatetime;
+    // Дата и время закрытия инстанса
+    @Column(name = "CLOSE_DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date closeDatetime;
+
+    // Пользователь, запустивший инстанс
+    @ManyToOne(targetEntity = BPMUser.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "STARTER_ID", referencedColumnName = "USER_ID")
+    private BPMUser starter;
 
     // Проект
     @ManyToOne(targetEntity = BPMProject.class, fetch = FetchType.LAZY)
@@ -62,6 +70,8 @@ public class BPMProcessInstance {
                 ", createDatetime=" + createDatetime +
                 ", dueDatetime=" + dueDatetime +
                 ", lastModifiedDatetime=" + lastModifiedDatetime +
+                ", closeDatetime=" + closeDatetime +
+                ", starter=" + starter +
                 ", bpmProject=" + bpmProject +
                 '}';
     }
@@ -136,5 +146,21 @@ public class BPMProcessInstance {
 
     public void setBpmProject(BPMProject bpmProject) {
         this.bpmProject = bpmProject;
+    }
+
+    public Date getCloseDatetime() {
+        return closeDatetime;
+    }
+
+    public void setCloseDatetime(Date closeDatetime) {
+        this.closeDatetime = closeDatetime;
+    }
+
+    public BPMUser getStarter() {
+        return starter;
+    }
+
+    public void setStarter(BPMUser starter) {
+        this.starter = starter;
     }
 }

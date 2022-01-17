@@ -11,10 +11,7 @@ public class BPMTaskInstanceDAO {
     }
 
     public List<BPMTaskInstance> findAllByBpdInstanceId(final Long bpdInstanceId, final Integer activityTaskTypeId) {
-//        String hqlQuery = "FROM BPMTaskInstance bti WHERE bti.bpdInstanceId = :bpdInstanceId";
-//        if (activityTaskType !== null)
-//            hqlQuery += " and bti.activityTaskTypeId = :actTaskTypeId";
-        List<BPMTaskInstance> bpmTaskInstances = (List<BPMTaskInstance>)
+        return (List<BPMTaskInstance>)
                 BPMHibernateSessionFactoryUtil
                         .getSessionFactory()
                         .openSession()
@@ -22,6 +19,5 @@ public class BPMTaskInstanceDAO {
                         .setParameter("bpdInstanceId", bpdInstanceId)
                         .setParameter("activityTaskTypeId", activityTaskTypeId)
                         .list();
-        return bpmTaskInstances;
     }
 }

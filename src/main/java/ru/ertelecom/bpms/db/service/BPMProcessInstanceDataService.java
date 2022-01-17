@@ -135,9 +135,41 @@ public class BPMProcessInstanceDataService {
                 ArrayNode arrayNode = OBJECT_MAPPER.createArrayNode();
                 Field arrayField = serializedFormObj.getClass().getDeclaredField("array");
                 arrayField.setAccessible(true);
-                List<TWObject> twObjects = (List<TWObject>) arrayField.get(serializedFormObj);
-                for (TWObject obj : twObjects)
-                    arrayNode.add(transformTWObjectToJSON(obj));
+                ArrayList arrayList = (ArrayList) arrayField.get(serializedFormObj);
+                for (Object obj : arrayList) {
+                    if (obj.getClass().getName().equals("com.lombardisoftware.core.TWObject"))
+                        arrayNode.add(transformTWObjectToJSON((TWObject) obj));
+                    else
+                        switch (obj.getClass().getName()) {
+                            case ("java.lang.Boolean"):
+                                arrayNode.add((Boolean) obj);
+                                break;
+                            case ("java.lang.String"):
+                                arrayNode.add(obj.toString());
+                                break;
+                            case ("java.lang.Integer"):
+                                arrayNode.add((int) obj);
+                                break;
+                            case ("java.lang.Double"):
+                                arrayNode.add((double) obj);
+                                break;
+                            case ("java.util.GregorianCalendar"):
+                                GregorianCalendar cal = (GregorianCalendar) obj;
+                                Date date = cal.getTime();
+                                arrayNode.add(ISO8601.format(date));
+                                break;
+                            case ("org.jdom.Element"):
+                                XMLOutputter xmlOutputter = new XMLOutputter();
+                                arrayNode.add(xmlOutputter.outputString((org.jdom.Element) obj));
+                                break;
+                            default:
+                                arrayNode.add("UNKNOWN: " + obj.getClass().getName());
+                                break;
+                        }
+                }
+//                List<TWObject> twObjects = (List<TWObject>) arrayField.get(serializedFormObj);
+//                for (TWObject obj : twObjects)
+//                    arrayNode.add(transformTWObjectToJSON(obj));
                 jsonNode = arrayNode;
                 break;
             default:

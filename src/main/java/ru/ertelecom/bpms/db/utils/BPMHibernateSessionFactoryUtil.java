@@ -21,6 +21,7 @@ public class BPMHibernateSessionFactoryUtil {
             configuration.addAnnotatedClass(BPMTaskInstance.class);
             configuration.addAnnotatedClass(BPMProject.class);
             configuration.addAnnotatedClass(BPMUser.class);
+            configuration.addAnnotatedClass(BPMGroup.class);
 
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
